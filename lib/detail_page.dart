@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:listkuliner/http_helper.dart';
 import 'package:listkuliner/makanan.dart';
 import 'package:listkuliner/styles.dart';
 
 class DetailPage extends StatelessWidget {
   final Makanan makanan;
+  HttpHelper api = HttpHelper();
 
-  DetailPage({super.key, required this.makanan});
+  DetailPage({super.key, required this.makanan, required this.api});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,20 @@ class DetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Stack(
+                children: <Widget>[
+                  Image.network(api.url + makanan.gambar, scale: 0.5),
+                  const SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [ButtonBack(), ButtonLike()],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              /*Stack(
                 children: [
                   Image.asset(makanan.gambarUtama, scale: 0.5),
                   Container(
@@ -27,7 +43,7 @@ class DetailPage extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
+              ),*/
               Container(
                 color: headerBackColor,
                 alignment: Alignment.center,
@@ -46,7 +62,7 @@ class DetailPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  attributesIcon(Icons.access_time_filled, makanan.waktuBuka),
+                  attributesIcon(Icons.access_time_filled, makanan.waktubuka),
                   attributesIcon(
                       Icons.local_fire_department_rounded, makanan.kalori),
                   attributesIcon(Icons.monetization_on, makanan.harga),
@@ -102,14 +118,14 @@ class DetailPage extends StatelessWidget {
     return SizedBox(
       height: 150,
       child: ListView.builder(
-          itemCount: makanan.gambarLain.length,
+          itemCount: makanan.gambarlain.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (AboutListTile, index) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(makanan.gambarLain[index])),
+                  child: Image.asset(makanan.gambarlain[index])),
             );
           }),
     );
